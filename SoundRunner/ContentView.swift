@@ -7,15 +7,34 @@
 
 import SwiftUI
 
+enum MusicProfile: String, CaseIterable {
+    case Nature, Grass, Bassline, Birds
+}
+
 struct ContentView: View {
+    @State var selection: MusicProfile = .Grass
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStack{
+            VStack{
+                Text(selection.rawValue)
+                    .font(.system(size: 100))
+                
+                Picker("Select your profile", selection: $selection){
+                    ForEach(MusicProfile.allCases, id: \.self){ musicProfile in Text(musicProfile.rawValue)
+                    }
+                }
+                .pickerStyle(.inline)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Sound Runner")
+                        .font(.largeTitle.bold())
+                        .accessibilityAddTraits(.isHeader)
+                }
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
